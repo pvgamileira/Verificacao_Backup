@@ -22,6 +22,10 @@ def coletar_dados_backup(caminho_base, pastas_ignoradas=None, arquivos_ignorados
     lista_arquivos = []
     lista_pastas = []
 
+    if not os.path.exists(caminho_base):
+        print(f"[AVISO] Diretório base não encontrado: {caminho_base}")
+        return lista_arquivos, lista_pastas
+
     tempo_atual = time.time()
 
     for pasta_atual, subpastas, arquivos in os.walk(caminho_base):
@@ -218,3 +222,7 @@ if __name__ == "__main__":
 
     # Consulta 4: ALERTA de pastas que passam do limite (O ideal é ter apenas 3 arquivos)
     relatorio_alerta_excesso_arquivos(dados_coletados, limite_ideal=3)
+
+    # Consulta 5: Exportação do diagnóstico consolidado para CSV
+    exportar_relatorio_csv(dados_coletados)
+
